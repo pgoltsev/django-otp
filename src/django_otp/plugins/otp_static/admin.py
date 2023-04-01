@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.contrib.admin.sites import AlreadyRegistered
+from django.utils.translation import gettext_lazy as _
 
 from django_otp.conf import settings
-
 from .models import StaticDevice, StaticToken
 
 
@@ -17,7 +17,7 @@ class StaticDeviceAdmin(admin.ModelAdmin):
     :class:`~django_otp.plugins.otp_static.models.StaticDevice`.
     """
     fieldsets = [
-        ('Identity', {
+        (_('Identity'), {
             'fields': ['user', 'name', 'confirmed'],
         }),
     ]

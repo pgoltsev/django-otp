@@ -3,6 +3,7 @@ from os import urandom
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from django_otp.models import Device, ThrottlingMixin
 
@@ -24,6 +25,7 @@ class StaticDevice(ThrottlingMixin, Device):
         The RelatedManager for our tokens.
 
     """
+
     def get_throttle_factor(self):
         return getattr(settings, 'OTP_STATIC_THROTTLE_FACTOR', 1)
 
@@ -41,6 +43,10 @@ class StaticDevice(ThrottlingMixin, Device):
 
         return (match is not None)
 
+    class Meta:
+        verbose_name = _('static device')
+        verbose_name_plural = _('static devices')
+
 
 class StaticToken(models.Model):
     """
@@ -54,8 +60,9 @@ class StaticToken(models.Model):
 
         *CharField*: A random string up to 16 characters.
     """
-    device = models.ForeignKey(StaticDevice, related_name='token_set', on_delete=models.CASCADE)
-    token = models.CharField(max_length=16, db_index=True)
+    device = models.ForeignKey(StaticDevice, related_name='token_set', on_delete=models.CASCADE,
+                               verbose_name=_('device'))
+    token = models.CharField(max_length=16, db_index=True, verbose_name=_('token'))
 
     @staticmethod
     def random_token():
@@ -66,3 +73,7 @@ class StaticToken(models.Model):
 
         """
         return b32encode(urandom(5)).decode('utf-8').lower()
+
+    class Meta:
+        verbose_name = _('static token')
+        verbose_name_plural = _('static tokens')

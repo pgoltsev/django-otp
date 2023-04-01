@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 
 from .util import random_number_token
 
@@ -15,6 +16,7 @@ class DeviceManager(models.Manager):
     The :class:`~django.db.models.Manager` object installed as
     ``Device.objects``.
     """
+
     def devices_for_user(self, user, confirmed=None):
         """
         Returns a queryset for all devices of this class that belong to the
@@ -71,9 +73,14 @@ class Device(models.Model):
 
         A :class:`~django_otp.models.DeviceManager`.
     """
-    user = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), help_text="The user that this device belongs to.", on_delete=models.CASCADE)
-    name = models.CharField(max_length=64, help_text="The human-readable name of this device.")
-    confirmed = models.BooleanField(default=True, help_text="Is this device ready for use?")
+    user = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'),
+                             help_text=_("The user that this device belongs to."),
+                             on_delete=models.CASCADE,
+                             verbose_name=_('user'))
+    name = models.CharField(max_length=64, help_text=_("The human-readable name of this device."),
+                            verbose_name=_('name'))
+    confirmed = models.BooleanField(default=True, help_text=_("Is this device ready for use?"),
+                                    verbose_name=_('confirmed'))
 
     objects = DeviceManager()
 
@@ -164,6 +171,7 @@ class Device(models.Model):
             trap ``Exception`` and report it to the user.
         """
         return None
+
     generate_challenge.stub = True
 
     def verify_is_allowed(self):
@@ -284,10 +292,12 @@ class ThrottlingMixin(models.Model):
     # throttle_increment() methods from within their verify_token() method.
     throttling_failure_timestamp = models.DateTimeField(
         null=True, blank=True, default=None,
-        help_text="A timestamp of the last failed verification attempt. Null if last attempt succeeded."
+        help_text=_("A timestamp of the last failed verification attempt. Null if last attempt succeeded."),
+        verbose_name=_('throttling failure timestamp')
     )
     throttling_failure_count = models.PositiveIntegerField(
-        default=0, help_text="Number of successive failed attempts."
+        default=0, help_text=_("Number of successive failed attempts."),
+        verbose_name=_('throttling failure count')
     )
 
     def verify_is_allowed(self):

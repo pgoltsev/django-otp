@@ -1,10 +1,11 @@
+import time
 from base64 import b32encode
 from binascii import unhexlify
-import time
 from urllib.parse import quote, urlencode
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from django_otp.models import Device, ThrottlingMixin
 from django_otp.oath import TOTP
@@ -66,16 +67,35 @@ class TOTPDevice(ThrottlingMixin, Device):
         subsequently. (Default: -1)
 
     """
-    key = models.CharField(max_length=80, validators=[key_validator], default=default_key, help_text="A hex-encoded secret key of up to 40 bytes.")
-    step = models.PositiveSmallIntegerField(default=30, help_text="The time step in seconds.")
-    t0 = models.BigIntegerField(default=0, help_text="The Unix time at which to begin counting steps.")
-    digits = models.PositiveSmallIntegerField(choices=[(6, 6), (8, 8)], default=6, help_text="The number of digits to expect in a token.")
-    tolerance = models.PositiveSmallIntegerField(default=1, help_text="The number of time steps in the past or future to allow.")
-    drift = models.SmallIntegerField(default=0, help_text="The number of time steps the prover is known to deviate from our clock.")
-    last_t = models.BigIntegerField(default=-1, help_text="The t value of the latest verified token. The next token must be at a higher time step.")
+    key = models.CharField(max_length=80, validators=[key_validator], default=default_key,
+                           help_text=_("A hex-encoded secret key of up to 40 bytes."),
+                           verbose_name=_('key'))
+    step = models.PositiveSmallIntegerField(default=30, help_text=_("The time step in seconds."),
+                                            verbose_name=_('step'))
+    t0 = models.BigIntegerField(default=0, help_text=_("The Unix time at which to begin counting steps."),
+                                verbose_name=_('time'))
+    digits = models.PositiveSmallIntegerField(choices=[(6, 6), (8, 8)], default=6,
+                                              help_text=_("The number of digits to expect in a token."),
+                                              verbose_name=_('digits'))
+    tolerance = models.PositiveSmallIntegerField(
+        default=1,
+        help_text=_("The number of time steps in the past or future to allow."),
+        verbose_name=_('tolerance')
+    )
+    drift = models.SmallIntegerField(
+        default=0,
+        help_text=_("The number of time steps the prover is known to deviate from our clock."),
+        verbose_name=_('drift')
+    )
+    last_t = models.BigIntegerField(
+        default=-1,
+        help_text=_("The t value of the latest verified token. The next token must be at a higher time step."),
+        verbose_name=_('last time')
+    )
 
     class Meta(Device.Meta):
-        verbose_name = "TOTP device"
+        verbose_name = _("TOTP device")
+        verbose_name_plural = _("TOTP devices")
 
     @property
     def bin_key(self):

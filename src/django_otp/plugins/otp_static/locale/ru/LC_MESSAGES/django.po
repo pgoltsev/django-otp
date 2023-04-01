@@ -1,0 +1,51 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: django-otp master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-04-01 15:45-0500\n"
+"PO-Revision-Date: 2023-04-01 14:26-0500\n"
+"Last-Translator: Pavel Goltsev <p.goltsev@gmail.com>\n"
+"Language-Team: Russian\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: src/django_otp/plugins/otp_static/admin.py:20
+msgid "Identity"
+msgstr "Соответствие"
+
+#: src/django_otp/plugins/otp_static/apps.py:8
+msgid "OTP static"
+msgstr "OTP постоянные"
+
+#: src/django_otp/plugins/otp_static/models.py:47
+msgid "static device"
+msgstr "постоянное устройство"
+
+#: src/django_otp/plugins/otp_static/models.py:48
+msgid "static devices"
+msgstr "постоянные устройства"
+
+#: src/django_otp/plugins/otp_static/models.py:64
+msgid "device"
+msgstr "устройство"
+
+#: src/django_otp/plugins/otp_static/models.py:65
+msgid "token"
+msgstr "токен"
+
+#: src/django_otp/plugins/otp_static/models.py:78
+msgid "static token"
+msgstr "постоянный токен"
+
+#: src/django_otp/plugins/otp_static/models.py:79
+msgid "static tokens"
+msgstr "постоянные токены"

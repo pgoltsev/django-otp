@@ -5,9 +5,9 @@ from django.http import HttpResponse
 from django.template.response import TemplateResponse
 from django.urls import path, reverse
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 
 from django_otp.conf import settings
-
 from .models import TOTPDevice
 
 
@@ -36,16 +36,16 @@ class TOTPDeviceAdmin(admin.ModelAdmin):
         else:
             configuration_fields = ['key', 'step', 't0', 'digits', 'tolerance']
         fieldsets = [
-            ('Identity', {
+            (_('Identity'), {
                 'fields': ['user', 'name', 'confirmed'],
             }),
-            ('Configuration', {
+            (_('Configuration'), {
                 'fields': configuration_fields,
             }),
-            ('State', {
+            (_('State'), {
                 'fields': ['drift'],
             }),
-            ('Throttling', {
+            (_('Throttling'), {
                 'fields': ['throttling_failure_timestamp', 'throttling_failure_count'],
             }),
         ]
@@ -72,12 +72,14 @@ class TOTPDeviceAdmin(admin.ModelAdmin):
     def qrcode_link(self, device):
         try:
             href = reverse('admin:otp_totp_totpdevice_config', kwargs={'pk': device.pk})
-            link = format_html('<a href="{}">qrcode</a>', href)
+            text = _('QR Code')
+            link = format_html('<a href="{}">' + text + '</a>', href)
         except Exception:
             link = ''
 
         return link
-    qrcode_link.short_description = "QR Code"
+
+    qrcode_link.short_description = _("QR Code")
 
     #
     # Custom views
@@ -85,9 +87,11 @@ class TOTPDeviceAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         urls = [
-            path('<int:pk>/config/', self.admin_site.admin_view(self.config_view), name='otp_totp_totpdevice_config'),
-            path('<int:pk>/qrcode/', self.admin_site.admin_view(self.qrcode_view), name='otp_totp_totpdevice_qrcode'),
-        ] + super().get_urls()
+                   path('<int:pk>/config/', self.admin_site.admin_view(self.config_view),
+                        name='otp_totp_totpdevice_config'),
+                   path('<int:pk>/qrcode/', self.admin_site.admin_view(self.qrcode_view),
+                        name='otp_totp_totpdevice_qrcode'),
+               ] + super().get_urls()
 
         return urls
 
