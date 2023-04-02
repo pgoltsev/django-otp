@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-otp master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-01 15:45-0500\n"
+"POT-Creation-Date: 2023-04-02 04:43-0500\n"
 "PO-Revision-Date: 2023-04-01 14:26-0500\n"
 "Last-Translator: Pavel Goltsev <p.goltsev@gmail.com>\n"
 "Language-Team: Russian\n"
@@ -81,7 +81,7 @@ msgstr "Отметка времени последней неудачной по
 
 #: src/django_otp/models.py:296
 msgid "throttling failure timestamp"
-msgstr "время сбоя регулирования"
+msgstr "время сбоя ограничения"
 
 #: src/django_otp/models.py:299
 msgid "Number of successive failed attempts."
@@ -89,7 +89,7 @@ msgstr "Количество последовательных неудачных
 
 #: src/django_otp/models.py:300
 msgid "throttling failure count"
-msgstr "количество сброшенных регулирований"
+msgstr "количество неудачных попыток"
 
 #: src/django_otp/templates/otp/admin111/login.html:38
 msgid "Please correct the error below."
