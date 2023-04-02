@@ -77,3 +77,6 @@ class StaticToken(models.Model):
     class Meta:
         verbose_name = _('static token')
         verbose_name_plural = _('static tokens')
+
+    def __str__(self):
+        return '{token} ({device})'.format(token=self.token, device=self.device.name)
